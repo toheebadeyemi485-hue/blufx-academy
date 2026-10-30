@@ -1,0 +1,344 @@
+
+import { useEffect, useState } from "react";
+import "./index.css";
+
+const starterCourses = [
+  {
+    title: "Forex Trading Fundamentals",
+    level: "BEGINNER",
+    duration: "6 lessons",
+    description: "Learn currency pairs, pips, spreads, sessions and how the forex market works.",
+  },
+  {
+    title: "Risk Management",
+    level: "ESSENTIAL",
+    duration: "5 lessons",
+    description: "Understand stop losses, position sizing, risk-to-reward and protecting capital.",
+  },
+  {
+    title: "Trading Psychology",
+    level: "INTERMEDIATE",
+    duration: "4 lessons",
+    description: "Build patience, discipline and a repeatable trading routine.",
+  },
+];
+
+const initialTrades = [
+  {
+    id: 1,
+    pair: "XAUUSD",
+    direction: "Buy",
+    result: "Win",
+    profit: 25,
+    date: "2026-10-29",
+    notes: "Example trade — replace with your own.",
+  },
+];
+
+function App() {
+  const [page, setPage] = useState("Home");
+  const [trades, setTrades] = useState(() => {
+    try {
+      const saved = localStorage.getItem("blufx-trades");
+      return saved === null ? initialTrades : JSON.parse(saved);
+    } catch {
+      return [];
+    }
+  });
+
+  const [form, setForm] = useState({
+    pair: "XAUUSD",
+    direction: "Buy",
+    result: "Win",
+    profit: "",
+    date: new Date().toLocaleDateString("en-CA"),
+    notes: "",
+  });
+
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("blufx-trades", JSON.stringify(trades));
+  }, [trades]);
+
+  const totalProfit = trades.reduce(
+    (sum, trade) => sum + Number(trade.profit || 0),
+    0
+  );
+
+  function addTrade(event) {
+    event.preventDefault();
+
+    if (!form.pair.trim() || form.profit === "") return;
+
+    setTrades((current) => [
+      {
+        ...form,
+        id: Date.now(),
+        pair: form.pair.toUpperCase(),
+        profit: Number(form.profit),
+      },
+      ...current,
+    ]);
+
+    setForm((current) => ({
+      ...current,
+      profit: "",
+      notes: "",
+    }));
+
+    setMessage("Trade added to your journal.");
+  }
+
+  function deleteTrade(id) {
+    setTrades((current) => current.filter((trade) => trade.id !== id));
+  }
+
+  const navItems = ["Home", "Academy", "Journal", "Account"];
+
+  return (
+    <div className="app">
+      <header className="topbar">
+        <button className="brand" onClick={() => setPage("Home")}>
+          <span className="brand-mark">B</span>
+          <span>BLU<span className="blue">FX</span></span>
+        </button>
+
+        <nav className="navigation">
+          {navItems.map((item) => (
+            <button
+              key={item}
+              className={page === item ? "nav-link active" : "nav-link"}
+              onClick={() => {
+                setPage(item);
+                setMessage("");
+              }}
+            >
+              {item}
+            </button>
+          ))}
+        </nav>
+
+        <button className="button button-small" onClick={() => setPage("Account")}>
+          Get started
+        </button>
+      </header>
+
+      <main>
+        {page === "Home" && (
+          <>
+            <section className="hero">
+              <div className="hero-copy">
+                <span className="eyebrow">TRADE WITH PURPOSE</span>
+                <h1>Build your edge.<br /><span className="blue">Master your trading.</span></h1>
+                <p>
+                  Learn the markets, develop discipline and track your trading
+                  journey with BLUFX Academy.
+                </p>
+                <div className="hero-actions">
+                  <button className="button" onClick={() => setPage("Academy")}>
+                    Explore the academy ↗
+                  </button>
+                  <button className="button button-outline" onClick={() => setPage("Journal")}>
+                    Open my journal
+                  </button>
+                </div>
+                <p className="disclaimer">
+                  Education and record-keeping tools. Trading involves risk.
+                </p>
+              </div>
+
+              <div className="market-card">
+                <div className="market-heading">
+                  <span>YOUR TRADING JOURNEY</span>
+                  <span className="live-dot">● READY</span>
+                </div>
+                <div className="chart-visual" aria-label="Decorative trading chart">
+                  <div className="chart-grid" />
+                  <svg viewBox="0 0 400 180" role="img" aria-label="Illustrative price line">
+                    <defs>
+                      <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#3188ff" stopOpacity=".35" />
+                        <stop offset="100%" stopColor="#3188ff" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M0 140 L35 125 L62 138 L92 91 L125 105 L158 65 L190 85 L225 43 L257 70 L290 35 L325 53 L358 18 L400 28 L400 180 L0 180Z" fill="url(#chartFill)" />
+                    <path d="M0 140 L35 125 L62 138 L92 91 L125 105 L158 65 L190 85 L225 43 L257 70 L290 35 L325 53 L358 18 L400 28" fill="none" stroke="#56a0ff" strokeWidth="3" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <div className="market-stats">
+                  <div><span>Journal trades</span><strong>{trades.length}</strong></div>
+                  <div><span>Recorded P/L</span><strong className={totalProfit >= 0 ? "positive" : "negative"}>{totalProfit >= 0 ? "+" : ""}{totalProfit.toFixed(2)}</strong></div>
+                </div>
+                <p className="muted small">Illustrative chart only — not live market data.</p>
+              </div>
+            </section>
+
+            <section className="section">
+              <div className="section-heading">
+                <div>
+                  <span className="eyebrow">THE BLUFX EXPERIENCE</span>
+                  <h2>Everything to grow as a trader.</h2>
+                </div>
+              </div>
+              <div className="feature-grid">
+                <Feature icon="01" title="Learn" text="Study trading fundamentals, risk management and psychology." onClick={() => setPage("Academy")} />
+                <Feature icon="02" title="Track" text="Record your entries, outcomes and lessons from every trade." onClick={() => setPage("Journal")} />
+                <Feature icon="03" title="Improve" text="Review your records and build better trading habits over time." onClick={() => setPage("Journal")} />
+              </div>
+            </section>
+          </>
+        )}
+
+        {page === "Academy" && (
+          <section className="section page-section">
+            <span className="eyebrow">BLUFX ACADEMY</span>
+            <h1>Learn. Practice. Improve.</h1>
+            <p className="muted">A growing library for traders who take their education seriously.</p>
+            <div className="course-grid">
+              {starterCourses.map((course, index) => (
+                <article className="course-card" key={course.title}>
+                  <div className={`course-art art-${index + 1}`}>
+                    <span>BLUFX ACADEMY</span>
+                    <strong>0{index + 1}</strong>
+                  </div>
+                  <div className="course-content">
+                    <div className="course-meta"><span>{course.level}</span><span>{course.duration}</span></div>
+                    <h3>{course.title}</h3>
+                    <p>{course.description}</p>
+                    <button className="text-button" onClick={() => setMessage(`"${course.title}" is a sample course. Lessons can be added next.`)}>
+                      View course ↗
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+            {message && <p className="notice">{message}</p>}
+          </section>
+        )}
+
+        {page === "Journal" && (
+          <section className="section page-section">
+            <span className="eyebrow">PERSONAL PERFORMANCE</span>
+            <h1>Trading journal</h1>
+            <p className="muted">Record your trades and learn from your decisions.</p>
+
+            <div className="stats-grid">
+              <Stat label="Trades recorded" value={trades.length} />
+              <Stat label="Recorded net P/L" value={`${totalProfit < 0 ? "-" : ""}$${Math.abs(totalProfit).toFixed(2)}`} />
+              <Stat label="Winning trades" value={trades.filter((trade) => trade.result === "Win").length} />
+            </div>
+
+            <div className="journal-layout">
+              <form className="panel trade-form" onSubmit={addTrade}>
+                <h2>Add a trade</h2>
+                <label>Instrument
+                  <input value={form.pair} onChange={(e) => setForm({ ...form, pair: e.target.value })} required placeholder="e.g. XAUUSD" />
+                </label>
+                <div className="form-row">
+                  <label>Direction
+                    <select value={form.direction} onChange={(e) => setForm({ ...form, direction: e.target.value })}>
+                      <option>Buy</option><option>Sell</option>
+                    </select>
+                  </label>
+                  <label>Outcome
+                    <select value={form.result} onChange={(e) => setForm({ ...form, result: e.target.value })}>
+                      <option>Win</option><option>Loss</option><option>Breakeven</option>
+                    </select>
+                  </label>
+                </div>
+                <label>Net profit or loss (USD)
+                  <input type="number" step="0.01" value={form.profit} onChange={(e) => setForm({ ...form, profit: e.target.value })} required placeholder="e.g. 25 or -10" />
+                </label>
+                <label>Date
+                  <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
+                </label>
+                <label>Trade notes
+                  <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} placeholder="Why did you enter? What did you learn?" rows="3" />
+                </label>
+                <button className="button" type="submit">Save trade</button>
+                {message && <p className="notice">{message}</p>}
+              </form>
+
+              <div className="panel">
+                <h2>Trade history</h2>
+                {trades.length === 0 ? (
+                  <p className="muted">No trades yet. Add your first trade using the form.</p>
+                ) : (
+                  <div className="table-wrap">
+                    <table>
+                      <thead><tr><th>Date / pair</th><th>Result</th><th>P/L (USD)</th><th></th></tr></thead>
+                      <tbody>
+                        {trades.map((trade) => (
+                          <tr key={trade.id}>
+                            <td><strong>{trade.pair}</strong><br /><span className="muted small">{trade.date} · {trade.direction}</span>{trade.notes && <p className="trade-note">{trade.notes}</p>}</td>
+                            <td>{trade.result}</td>
+                            <td className={Number(trade.profit) >= 0 ? "positive" : "negative"}>{Number(trade.profit) >= 0 ? "+" : ""}{Number(trade.profit).toFixed(2)}</td>
+                            <td><button className="delete-button" onClick={() => deleteTrade(trade.id)} aria-label={`Delete ${trade.pair} trade`}>×</button></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                <p className="muted small">Sample data is for demonstration. All records are stored locally in this browser.</p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {page === "Account" && (
+          <section className="account-section">
+            <div className="panel account-panel">
+              <span className="brand-mark large">B</span>
+              <span className="eyebrow">WELCOME TO BLUFX</span>
+              <h1>Your trading journey starts here.</h1>
+              <p className="muted">Enter your email to preview the account experience.</p>
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                setMessage(`Demo only: account authentication is not connected yet. No account was created for ${email}.`);
+              }}>
+                <label>Email address
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+                </label>
+                <button className="button full-width" type="submit">Continue</button>
+              </form>
+              {message && <p className="notice">{message}</p>}
+              <p className="muted small">This preview does not create accounts or send emails.</p>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer className="footer">
+        <button className="brand footer-brand" onClick={() => setPage("Home")}>BLU<span className="blue">FX</span></button>
+        <p>Learn with purpose. Trade with discipline.</p>
+        <p className="small muted">Trading involves risk. Educational tools are not financial advice.</p>
+        <p className="small muted">© {new Date().getFullYear()} BLUFX. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
+
+function Feature({ icon, title, text, onClick }) {
+  return (
+    <button className="feature-card" onClick={onClick}>
+      <span className="feature-icon">{icon}</span>
+      <h3>{title}</h3>
+      <p>{text}</p>
+      <span className="text-button">Explore ↗</span>
+    </button>
+  );
+}
+
+function Stat({ label, value }) {
+  return (
+    <div className="stat-card">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
+  );
+}
+
+export default App;
