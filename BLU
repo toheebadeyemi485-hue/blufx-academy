@@ -1,4 +1,205 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLUFX | Trading Hub Academy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>BLU<span>FX</span></h1>
+    <p>Trade Smart. Grow Strong.</p>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#journal">Trading Journal</a>
+        <a href="#academy">Academy</a>
+        <a href="#account">Account</a>
+    </nav>
+    </header>
+
+    <main>
+
+    <!-- Welcome Section -->
+    <section class="hero" id="home">
+
+        <p class="hero-label">WELCOME TO BLUFX</p>
+
+        <h2>Trade Smarter.<br>
+            Grow Stronger.</h2>
+
+        <p class="hero-description">
+            Your journey to becoming a disciplined and confident trader starts here.
+            Learn trading skills, track your performance, and build better habits.
+        </p>
+
+        <button id="welcomeBtn">Start Your Journey</button>
+
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+
+        <h2>Everything You Need to Grow</h2>
+
+        <p class="section-description">
+            Build your trading knowledge, monitor your progress, and stay organised.
+        </p>
+
+        <div class="feature-container">
+
+            <article class="feature-card" id="journal">
+                <div class="feature-icon">📊</div>
+                <h3>Trading Journal</h3>
+                <p>
+                    Record your trades, review your decisions, and learn from
+                    your trading performance.
+                </p>
+                <a href="#journal">Explore Journal →</a>
+            </article>
+
+            <article class="feature-card" id="academy">
+                <div class="feature-icon">🎓</div>
+                <h3>BLUFX Academy</h3>
+                <p>
+                    Develop your knowledge of forex, risk management,
+                    trading psychology, and market analysis.
+                </p>
+                <a href="#academy">Explore Academy →</a>
+            </article>
+
+            <article class="feature-card" id="account">
+                <div class="feature-icon">👤</div>
+                <h3>Your Account</h3>
+                <p>
+                    Your future personal space for managing your profile
+                    and accessing your learning progress.
+                </p>
+                <a href="#account">View Account →</a>
+            </article>
+
+        </div>
+
+    </section> 
+
+<!-- BLUFX Academy -->
+<section class="academy-section" id="academy">
+
+    <p class="hero-label">LEARN. DEVELOP. MASTER.</p>
+
+    <h2>Welcome to BLUFX Academy</h2>
+
+    <p class="section-description">
+        Develop your trading knowledge through structured lessons
+        designed to help you become a more disciplined trader.
+    </p>
+
+    <div class="course-container">
+
+        <a href="forex-fundamentals.html" class="course-card"><span class="free-label">FREE COURSE</span>
+    <h3>Forex Trading Fundamentals</h3>
+    <p>Understand currency pairs, pips, spreads and how the forex market works.</p>
+    <span>Beginner Level</span>
+</a>
+
+        <div class="course-card">
+             <span class="premium-label">PREMIUM COURSE</span>
+            <h3>Technical Analysis</h3>
+            <p> Understand liquidity, candlesticks, market structure, order blocks and institutional trading concepts .</p>
+          <h4 class="course-price">₦20,000</h4> 
+          <button class="purchase-btn"
+        data-course="Advanced Technical Analysis + SMC"
+        data-amount="20000">
+    Purchase Course
+</button>
+          <span>Intermediate Level</span>
+        </div>
+
+        <div class="course-card"> <span class="premium-label">PREMIUM COURSE</span>
+            <h3>Risk Management</h3>
+            <p>Understand position sizing, stop losses and how to manage trading risk.</p>
+            <h4 class="course-price">₦10,000</h4>
+            <button class="purchase-btn"
+        data-course="Risk Management"
+        data-amount="10000">
+    Purchase Course
+</button>
+            <span>All Levels</span>
+        </div>
+
+        <div class="course-card"> <span class="premium-label">PREMIUM COURSE</span>
+            <h3>Trading Psychology</h3>
+            <p>Develop patience, discipline and emotional control when trading.</p>
+            <h4 class="course-price">₦10,000</h4>
+            <button class="purchase-btn"
+        data-course="Advanced Trading Psychology"
+        data-amount="10000">
+    Purchase Course
+</button>
+            <span>All Levels</span>
+        </div>
+
+    </div>
+
+</section>
+<!-- PREMIUM COURSES SECTION -->
+
+<section class="premium-section">
+
+    <p class="hero-label">TAKE YOUR TRADING TO THE NEXT LEVEL</p>
+
+    <h2>BLUFX Premium Courses</h2>
+
+    <p class="section-description">
+        Get access to advanced trading education and develop
+        your skills with our premium learning programmes.
+    </p>
+
+    <div class="course-container">
+
+        <div class="course-card">
+            <h3>Smart Money Concepts</h3>
+            <p>Understand liquidity, market structure, order blocks and institutional trading concepts.</p>
+            <span>Premium Course</span>
+        </div>
+
+        <div class="course-card">
+            <h3>Advanced Technical Analysis</h3>
+            <p>Develop your chart analysis skills and understand advanced market movements.</p>
+            <span>Premium Course</span>
+        </div>
+
+        <div class="course-card">
+            <h3>Prop Firm Challenge Training</h3>
+            <p>Learn about challenge rules, trading discipline and risk management.</p>
+            <span>Premium Course</span>
+        </div>
+
+        <div class="course-card">
+            <h3>Advanced Trading Psychology</h3>
+            <p>Build emotional control, patience and consistency in your trading.</p>
+            <span>Premium Course</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+    <footer>
+        <p>&copy; 2026 BLUFX. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
 import { useEffect, useState } from "react";
 import "./index.css";
 
